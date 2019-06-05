@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "eslint **/*.js",
     "test": "jest --verbose --coverage",
-    "test-watch": "jest --watchAll --verbose --coverage"
+    "test-watch": "jest --watchAll --verbose --coverage",
+    "build-docs": "jsdoc -c ./docs/jsdoc.config.json -R ./docs/README.md ."
   },
   "keywords": [],
   "author": "",
@@ -22,6 +23,7 @@
   },
   "devDependencies": {
     "jsdoc": "^3.6.2",
+    "swagger-jsdoc": "^3.2.9",
     "swagger-ui-express": "^4.0.5"
   }
 }
