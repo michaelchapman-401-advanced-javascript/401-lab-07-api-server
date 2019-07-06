@@ -1,45 +1,55 @@
-'use strict';
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server.js</title>
 
-/** @module lib/server */
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
 
 const express = require('express');
-// const swaggify = require('./swaggify.js');
+const swaggify = require('./swaggify.js');
 
 const app = express();
 
-// const PORT = process.env.PORT || 8080;
+const PORT = process.env.PORT || 8080;
 
 let db = [];
 
-/**
- * An object to represent a person
- * @constructor
- * @param {String} name - Name of person
- * @param {Number} id - Unique identifier for the Person object
- */
-
 function Person(name, id) {
-  if(typeof name === 'string'){ 
-    this.name = name;
-
-  } else {
-    throw new Error('Invalid name');
-  }
-
-  id = Number(id);
+  this.name = name;
   this.id = id ? id : this.id = db.length + 1;
 }
 
 app.use(express.json());
 
-// swaggify(app);
+swaggify(app);
 
 /**
- * Middleware to log METHOD and PATH of request
- * @param {Object} req - Express Request Object
- * @param {Object} res - Express Response Object
- */
-
+   * @method use
+   * @desc Middleware which console logs the method and path before each route
+   */
 app.use( (req,res,next) => {
   console.log('LOG:', req.method, req.path);
   next();
@@ -52,10 +62,10 @@ app.use( (req,res,next) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-app.get('/categories', (req,res) => {
+app.get('/categories', (req,res,next) => {
   let count = db.length;
   let results = db;
-  res.send({count,results});
+  res.json({count,results});
 });
 
 /**
@@ -65,7 +75,7 @@ app.get('/categories', (req,res) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-app.get('/categories/:id', (req,res) => {
+app.get('/categories/:id', (req,res,next) => {
   let id = req.params.id;
   let record = db.filter((record) => record.id === parseInt(id));
   res.json(record[0]);
@@ -78,8 +88,7 @@ app.get('/categories/:id', (req,res) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-
-app.post('/categories', (req,res) => {
+app.post('/categories', (req,res,next) => {
   if (!req.body.name || typeof req.body.name !== 'string') {
     console.error('Invalid name');
   } else {
@@ -96,16 +105,16 @@ app.post('/categories', (req,res) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-app.put('/categories/:id', (req,res) => {
+app.put('/categories/:id', (req,res,next) => {
   let id = req.params.id;
 
   if (!req.body.name || typeof req.body.name !== 'string') {
     console.error('Invalid name');
   } else {  
-    let person = new Person(req.body.name, id);
+    let person = new Person(req.body.name, Number(id));
     let index = -1;
 
-    for (let i = 0; i < db.length; i++) {
+    for (let i = 0; i &lt; db.length; i++) {
       if (db[i].id === Number(id)) {
         index = i;
         db.splice(index, 1, person);
@@ -115,14 +124,6 @@ app.put('/categories/:id', (req,res) => {
   }
 });
 
-app.get('*', (req, res) => {
-  res.status(404).send('404 not found');
-});
-
-app.use((err, req, res) => {
-  res.status(500).send('Server error!');
-});
-
 /**
  * Delete a record from database
  * @route PUT /{model}/:{id}
@@ -130,12 +131,11 @@ app.use((err, req, res) => {
  * @returns {Object} 500 - Server error
  * @returns {Object} 200 - { count: 2, results: [{}, {}]}
  */
-
-app.delete('/categories/:id', (req, res) => {
+app.delete('/categories/:id', (req,res,next) => {
   let id = req.params.id;
   let index = -1;
 
-  for (let i = 0; i < db.length; i++) {
+  for (let i = 0; i &lt; db.length; i++) {
     if (db[i].id === Number(id)) {
       index = i;
 
@@ -145,11 +145,6 @@ app.delete('/categories/:id', (req, res) => {
   }
 });
 
-app.use((err, req, res) => {
-  console.error(err);
-  res.send(500).send('Internal server error encountered');
-});
-
 module.exports = {
   server: app,
   start: port => {
@@ -157,3 +152,26 @@ module.exports = {
     app.listen(PORT, () => console.log(`Listening on ${PORT}`));
   },
 };
+</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Global</h3><ul><li><a href="global.html#use">use</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc/jsdoc">JSDoc 3.6.2</a> on Sat Jun 08 2019 09:56:59 GMT-0700 (Pacific Daylight Time)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

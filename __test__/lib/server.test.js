@@ -11,7 +11,7 @@ describe('web server', () => {
     return mockRequest
       .get('/foo')
       .then(results => {
-        expect(results.status).toBe(500);
+        expect(results.status).toBe(404);
       }).catch(console.error);
 
   });
@@ -31,15 +31,15 @@ describe('web server', () => {
     return mockRequest
       .post('/')
       .then(results => {
-        expect(results.status).toBe(404);
+        expect(results.status).toBe(500);
       }).catch(console.error);
 
   });
 
-  it('should respond properly on request to /api/v1/categories', () => {
+  it('should respond properly on request to /categories', () => {
 
     return mockRequest
-      .get('/api/v1/categories')
+      .get('/categories')
       .then(results => {
         expect(results.status).toBe(200);
       }).catch(console.error);

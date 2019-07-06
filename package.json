@@ -4,20 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "lint": "eslint **/*.js",
+    "start": "node index.js",
+    "lint": "eslint --fix \"**/*.js\"",
     "test": "jest --verbose --coverage",
-    "test-watch": "jest --watchAll --verbose --coverage"
+    "test-watch": "jest --watchAll --verbose --coverage",
+    "build-docs": "jsdoc -c ./docs//config/jsdoc.config.json -R ./docs/README.md ."
+
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "dependencies": {
     "ejs": "^2.6.1",
-    "eslint": "^5.7.0",
+    "eslint": "^5.16.0",
     "express": "^4.16.4",
     "jest": "^23.6.0",
     "method-override": "^3.0.0",
     "superagent": "^4.0.0-beta.5",
     "supertest": "^3.3.0"
+  },
+  "devDependencies": {
+    "express-swagger-generator": "^1.1.14",
+    "jsdoc": "^3.6.2",
+    "swagger-jsdoc": "^3.2.9",
+    "swagger-ui-express": "^4.0.5"
   }
 }
